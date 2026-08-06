@@ -1,102 +1,281 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-</head>
-
-<body>
-  
-</body>
+<html lang="am">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Clicker Game</title>
-    <!-- የቴሌግራም ሚኒ አፕ ዲዛይን ፕለጊን -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RoPHe Clicker Pro</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a, #1e1b4b);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-color: #f8fafc;
+            --accent-green: #22c55e;
+            --accent-blue: #3b82f6;
+            --coin-gold: #f59e0b;
+        }
         body {
-            background-color: var(--tg-theme-bg-color, #0f172a);
-            color: var(--tg-theme-text-color, #ffffff);
-            font-family: Arial, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
             margin: 0;
-            padding: 0;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: space-between;
             height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
         }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
+        
+        /* የላይኛው የስታስቲክስ እና የክላይም ክፍል */
+        .header-container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 14px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        #score {
-            font-size: 50px;
-            font-weight: bold;
+        .timer-box {
+            font-size: 13px;
+            color: #94a3b8;
+            text-align: left;
+        }
+        .claim-btn {
+            background-color: var(--accent-green);
+            color: #000;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .claim-btn:disabled {
+            background-color: #475569;
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        /* የመሃል ጨዋታ ክፍል */
+        .game-core {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-greeting {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 600;
+        }
+        .username-highlight {
             color: #38bdf8;
-            margin: 20px 0;
         }
-        .coin-btn {
+        
+        .score-board {
+            font-size: 52px;
+            font-weight: 900;
+            color: #38bdf8;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+            margin: 5px 0;
+        }
+
+        /* የሳንቲም ቁልፍ ዲዛይን */
+        .coin-wrapper {
             background: none;
             border: none;
             cursor: pointer;
+            padding: 0;
+            position: relative;
             outline: none;
             transition: transform 0.1s ease;
+            margin: 10px 0;
         }
-        .coin-btn img {
-            width: 180px;
-            height: 180px;
+        .coin-wrapper:active {
+            transform: scale(0.93);
+        }
+        .coin-circle {
+            width: 190px;
+            height: 190px;
             border-radius: 50%;
-            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+            background: linear-gradient(145deg, #f59e0b, #b45309);
+            box-shadow: 0 0 35px rgba(245, 158, 11, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 5px solid #fef3c7;
         }
-        .coin-btn:active {
-            transform: scale(0.92);
+        .coin-circle img {
+            width: 55%;
+            height: auto;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+        }
+
+        /* የታችኛው አዝራሮች (Invite & Tasks) */
+        .footer-actions {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+        }
+        .btn-action {
+            flex: 1;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: background 0.2s;
+        }
+        .btn-action:hover {
+            background: rgba(51, 65, 85, 0.8);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border: none;
+            color: white;
+        }
+        .btn-icon {
+            width: 20px;
+            height: 20px;
         }
     </style>
 </head>
 <body>
 
-    <h1 id="greeting">እንኳን ደህና መጡ!</h1>
-    <p>ሳንቲሙን በመንካት ነጥብ ይሰብስቡ</p>
-    
-    <div id="score">0</div>
+    <!-- የላይኛው ክፍል (ሰዓት እና ክላይም) -->
+    <div class="header-container">
+        <div class="timer-box">
+            <div style="font-size: 11px;">ቦነስ ሰዓት</div>
+            <div id="claimTimer" style="font-weight: bold; color: #fff;">05:00</div>
+        </div>
+        <button class="claim-btn" id="claimBtn" disabled>ክላይም (+500)</button>
+    </div>
 
-    <!-- የሳንቲም ምስል -->
-    <button class="coin-btn" id="clickBtn">
-        <img src="https://cdn-icons-png.flaticon.com/512/1382/1382533.png" alt="Coin">
-    </button>
+    <!-- የመሃል ዋና የክሊክ ማዕከል -->
+    <div class="game-core">
+        <h2 class="user-greeting">ሰላም፣ <span class="username-highlight" id="username">ተጠቃሚ</span> 👋</h2>
+        <div class="score-board" id="score">0</div>
+        <p style="color: #94a3b8; font-size: 14px; margin: 0;">ሳንቲሙን በመንካት ነጥብ ይሰብስቡ</p>
+
+        <!-- የሳንቲም ምስል አዝራር -->
+        <button class="coin-wrapper" id="clickBtn">
+            <div class="coin-circle">
+                <img src="https://cdn-icons-png.flaticon.com/512/8148/8148139.png" alt="Coin Logo">
+            </div>
+        </button>
+    </div>
+
+    <!-- የታችኛዎቹ ጓደኛ መጋበዣ (Invite) እና ተልእኮዎች (Tasks) ቁልፎች -->
+    <div class="footer-actions">
+        <a href="#" class="btn-action btn-primary" id="inviteBtn">
+            <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="Invite" class="btn-icon">
+            ጓደኛ ጋብዙ (+1000)
+        </a>
+        <button class="btn-action" id="tasksBtn">
+            <img src="https://cdn-icons-png.flaticon.com/512/2666/2666500.png" alt="Tasks" class="btn-icon">
+            ተልእኮዎች
+        </button>
+    </div>
 
     <script>
-        // ከቴሌግራም ጋር ማገናኘት
+        // ቴሌግራም ዌብ አፕ ማስተካከያ
         let tg = window.Telegram.WebApp;
-        tg.expand(); // ስክሪኑን ሙሉ በሙሉ እንዲሞላ ማድረግ
+        tg.expand();
 
-        // የተጠቃሚውን ስም ከቴሌግራም አግኝቶ ሰላም ማለት
+        // ተጠቃሚውን መለየት
         let user = tg.initDataUnsafe.user;
-        if (user && user.first_name) {
-            document.getElementById("greeting").innerText = `ሰላም, ${user.first_name}!`;
+        let userId = "12345"; // ነባሪ መለያ
+        if (user) {
+            if (user.first_name) {
+                document.getElementById("username").innerText = user.first_name;
+            }
+            if (user.id) {
+                userId = user.id;
+            }
         }
 
-        // የ ነጥብ (Score) አያያዝ
-        let score = 0;
+        // ነጥብ (Score) አያያዝ በ localStorage አማካኝነት ከስልክዎ እንዳይጠፋ
+        let score = parseInt(localStorage.getItem('ropi_score')) || 0;
         const scoreDisplay = document.getElementById("score");
+        scoreDisplay.innerText = score;
+
         const clickBtn = document.getElementById("clickBtn");
-
         clickBtn.addEventListener("click", () => {
-            score += 1; // ሲነካ 1 ይጨምራል
+            score += 1;
             scoreDisplay.innerText = score;
+            localStorage.setItem('ropi_score', score);
 
-            // ስልክ እንዲንቀጠቀጥ ማድረግ (Haptic feedback) ሲነኩት
+            // ስልኩ እንዲንቀጠቀጥ (Haptic Feedback)
             if (tg.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred("medium");
+                tg.HapticFeedback.impactOccurred("light");
             }
         });
+
+        // የክላይም (Claim) ሰዓት ቆጣሪ ስርዓት (ለምሳሌ በየ 5 ደቂቃው)
+        let claimSeconds = 300; // 5 ደቂቃ
+        const timerDisplay = document.getElementById("claimTimer");
+        const claimBtn = document.getElementById("claimBtn");
+
+        function updateClaimTimer() {
+            let m = Math.floor(claimSeconds / 60);
+            let s = claimSeconds % 60;
+            timerDisplay.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+            if (claimSeconds <= 0) {
+                timerDisplay.innerText = "ዝግጁ ነው!";
+                claimBtn.disabled = false;
+            } else {
+                claimSeconds--;
+                setTimeout(updateClaimTimer, 1000);
+            }
+        }
+        updateClaimTimer();
+
+        claimBtn.addEventListener("click", () => {
+            score += 500; // ክላይም ሲደረግ 500 ይጨምራል
+            scoreDisplay.innerText = score;
+            localStorage.setItem('ropi_score', score);
+            
+            claimBtn.disabled = true;
+            claimSeconds = 300; // ሰዓቱ እንደገና ይመለሳል
+            updateClaimTimer();
+
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred("success");
+            }
+        });
+
+        // ትክክለኛ የሪፈራል (Invite) ሊንክ ማመንጨት
+        const botUsername = "my_clicker_game_2026_bot"; // የቦትዎ ስም
+        const inviteLink = `https://t.me/share/url?url=https://t.me/${botUsername}?start=ref_${userId}&text=ና!%20ይህን%20አሪፍ%20ጨዋታ%20 በመጫወት%20ሳንቲም%20ሰብስብ!`;
+        
+        document.getElementById("inviteBtn").addEventListener("click", (e) => {
+            e.preventDefault();
+            // ቴሌግራም ሼር ማድረጊያውን መክፈት
+            window.open(inviteLink, '_blank');
+        });
+
+        // የተልእኮዎች ቁልፍ
+        document.getElementById("tasksBtn").addEventListener("click", () => {
+            alert("የቀኑ ተልእኮዎች በቅርቡ ይለቀቃሉ! 🚀");
+        });
     </script>
-
 </body>
-
 </html>
