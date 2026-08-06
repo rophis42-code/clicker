@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+  
+</body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Clicker Game</title>
+    <!-- የቴሌግራም ሚኒ አፕ ዲዛይን ፕለጊን -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-color: var(--tg-theme-bg-color, #0f172a);
+            color: var(--tg-theme-text-color, #ffffff);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        #score {
+            font-size: 50px;
+            font-weight: bold;
+            color: #38bdf8;
+            margin: 20px 0;
+        }
+        .coin-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            transition: transform 0.1s ease;
+        }
+        .coin-btn img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+        }
+        .coin-btn:active {
+            transform: scale(0.92);
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="greeting">እንኳን ደህና መጡ!</h1>
+    <p>ሳንቲሙን በመንካት ነጥብ ይሰብስቡ</p>
+    
+    <div id="score">0</div>
+
+    <!-- የሳንቲም ምስል -->
+    <button class="coin-btn" id="clickBtn">
+        <img src="https://cdn-icons-png.flaticon.com/512/1382/1382533.png" alt="Coin">
+    </button>
+
+    <script>
+        // ከቴሌግራም ጋር ማገናኘት
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // ስክሪኑን ሙሉ በሙሉ እንዲሞላ ማድረግ
+
+        // የተጠቃሚውን ስም ከቴሌግራም አግኝቶ ሰላም ማለት
+        let user = tg.initDataUnsafe.user;
+        if (user && user.first_name) {
+            document.getElementById("greeting").innerText = `ሰላም, ${user.first_name}!`;
+        }
+
+        // የ ነጥብ (Score) አያያዝ
+        let score = 0;
+        const scoreDisplay = document.getElementById("score");
+        const clickBtn = document.getElementById("clickBtn");
+
+        clickBtn.addEventListener("click", () => {
+            score += 1; // ሲነካ 1 ይጨምራል
+            scoreDisplay.innerText = score;
+
+            // ስልክ እንዲንቀጠቀጥ ማድረግ (Haptic feedback) ሲነኩት
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred("medium");
+            }
+        });
+    </script>
+
+</body>
+
+</html>
