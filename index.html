@@ -29,8 +29,6 @@
             box-sizing: border-box;
             overflow: hidden;
         }
-        
-        /* የላይኛው የስታስቲክስ እና የክላይም ክፍል */
         .header-container {
             width: 100%;
             display: flex;
@@ -63,32 +61,36 @@
             color: #94a3b8;
             cursor: not-allowed;
         }
-
-        /* የመሃል ጨዋታ ክፍል */
         .game-core {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         .user-greeting {
-            font-size: 18px;
+            font-size: 17px;
             margin: 0;
             font-weight: 600;
         }
         .username-highlight {
             color: #38bdf8;
         }
-        
         .score-board {
-            font-size: 52px;
+            font-size: 48px;
             font-weight: 900;
             color: #38bdf8;
             text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-            margin: 5px 0;
+            margin: 2px 0;
         }
-
-        /* የሳንቲም ቁልፍ ዲዛይን */
+        .stats-row {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            color: #cbd5e1;
+            background: rgba(255,255,255,0.05);
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
         .coin-wrapper {
             background: none;
             border: none;
@@ -97,29 +99,27 @@
             position: relative;
             outline: none;
             transition: transform 0.1s ease;
-            margin: 10px 0;
+            margin: 5px 0;
         }
         .coin-wrapper:active {
             transform: scale(0.93);
         }
         .coin-circle {
-            width: 190px;
-            height: 190px;
+            width: 170px;
+            height: 170px;
             border-radius: 50%;
             background: linear-gradient(145deg, #f59e0b, #b45309);
-            box-shadow: 0 0 35px rgba(245, 158, 11, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.3);
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 5px solid #fef3c7;
+            border: 4px solid #fef3c7;
         }
         .coin-circle img {
             width: 55%;
             height: auto;
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
         }
-
-        /* የታችኛው አዝራሮች (Invite & Tasks) */
         .footer-actions {
             width: 100%;
             display: flex;
@@ -132,13 +132,13 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 12px;
             border-radius: 14px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
             text-decoration: none;
             backdrop-filter: blur(10px);
             transition: background 0.2s;
@@ -152,27 +152,33 @@
             color: white;
         }
         .btn-icon {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
         }
     </style>
 </head>
 <body>
 
-    <!-- የላይኛው ክፍል (ሰዓት እና ክላይም) -->
+    <!-- የላይኛው የክላይም እና የቦነስ ሰዓት ክፍል -->
     <div class="header-container">
         <div class="timer-box">
-            <div style="font-size: 11px;">ቦነስ ሰዓት</div>
-            <div id="claimTimer" style="font-weight: bold; color: #fff;">05:00</div>
+            <div style="font-size: 10px;">የቀኑ ክላይም ቦነስ</div>
+            <div id="claimTimer" style="font-weight: bold; color: #fff;">00:00</div>
         </div>
-        <button class="claim-btn" id="claimBtn" disabled>ክላይም (+500)</button>
+        <button class="claim-btn" id="claimBtn" disabled>ክላይም (+1000)</button>
     </div>
 
-    <!-- የመሃል ዋና የክሊክ ማዕከል -->
+    <!-- የመሃል ዋና የጨዋታ ማዕከል -->
     <div class="game-core">
         <h2 class="user-greeting">ሰላም፣ <span class="username-highlight" id="username">ተጠቃሚ</span> 👋</h2>
         <div class="score-board" id="score">0</div>
-        <p style="color: #94a3b8; font-size: 14px; margin: 0;">ሳንቲሙን በመንካት ነጥብ ይሰብስቡ</p>
+        
+        <div class="stats-row">
+            <span>የጋበዝካቸው: <b id="inviteCount" style="color:#38bdf8;">0</b>/3</span>
+            <span>ሽልማት: <b id="rewardStatus" style="color:#f59e0b;">ሊጠብቅ ነው</b></span>
+        </div>
+
+        <p style="color: #94a3b8; font-size: 13px; margin: 0;">ሳንቲሙን በመንካት ነጥብ ይሰብስቡ</p>
 
         <!-- የሳንቲም ምስል አዝራር -->
         <button class="coin-wrapper" id="clickBtn">
@@ -186,7 +192,7 @@
     <div class="footer-actions">
         <a href="#" class="btn-action btn-primary" id="inviteBtn">
             <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="Invite" class="btn-icon">
-            ጓደኛ ጋብዙ (+1000)
+            3 ጓደኛ ጋብዙ (+3000)
         </a>
         <button class="btn-action" id="tasksBtn">
             <img src="https://cdn-icons-png.flaticon.com/512/2666/2666500.png" alt="Tasks" class="btn-icon">
@@ -195,13 +201,11 @@
     </div>
 
     <script>
-        // ቴሌግራም ዌብ አፕ ማስተካከያ
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        // ተጠቃሚውን መለየት
         let user = tg.initDataUnsafe.user;
-        let userId = "12345"; // ነባሪ መለያ
+        let userId = "12345";
         if (user) {
             if (user.first_name) {
                 document.getElementById("username").innerText = user.first_name;
@@ -211,25 +215,37 @@
             }
         }
 
-        // ነጥብ (Score) አያያዝ በ localStorage አማካኝነት ከስልክዎ እንዳይጠፋ
+        // ነጥቦች እና የኢንቫይት ቁጥር ከ localStorage መጫን
         let score = parseInt(localStorage.getItem('ropi_score')) || 0;
-        const scoreDisplay = document.getElementById("score");
-        scoreDisplay.innerText = score;
+        let inviteCount = parseInt(localStorage.getItem('ropi_invites')) || 0;
+        let rewardClaimed = localStorage.getItem('ropi_reward_claimed') === 'true';
 
+        const scoreDisplay = document.getElementById("score");
+        const inviteCountDisplay = document.getElementById("inviteCount");
+        const rewardStatusDisplay = document.getElementById("rewardStatus");
+
+        scoreDisplay.innerText = score;
+        inviteCountDisplay.innerText = inviteCount;
+
+        if(rewardClaimed) {
+            rewardStatusDisplay.innerText = "ተወስዷል ✅";
+            rewardStatusDisplay.style.color = "#22c55e";
+        }
+
+        // የክሊክ ሰሌዳ ተግባር
         const clickBtn = document.getElementById("clickBtn");
         clickBtn.addEventListener("click", () => {
             score += 1;
             scoreDisplay.innerText = score;
             localStorage.setItem('ropi_score', score);
 
-            // ስልኩ እንዲንቀጠቀጥ (Haptic Feedback)
             if (tg.HapticFeedback) {
                 tg.HapticFeedback.impactOccurred("light");
             }
         });
 
-        // የክላይም (Claim) ሰዓት ቆጣሪ ስርዓት (ለምሳሌ በየ 5 ደቂቃው)
-        let claimSeconds = 300; // 5 ደቂቃ
+        // የክላይም (Claim) ሰዓት ቆጣሪ ስርዓት (ለዕለት ተዕለት ኮይን - 1 ደቂቃ ወይም እንደ አስፈላጊነቱ)
+        let claimSeconds = parseInt(localStorage.getItem('ropi_claim_time')) || 60; 
         const timerDisplay = document.getElementById("claimTimer");
         const claimBtn = document.getElementById("claimBtn");
 
@@ -239,42 +255,46 @@
             timerDisplay.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 
             if (claimSeconds <= 0) {
-                timerDisplay.innerText = "ዝግጁ ነው!";
+                timerDisplay.innerText = "ክላይም ዝግጁ ነው!";
                 claimBtn.disabled = false;
             } else {
                 claimSeconds--;
+                localStorage.setItem('ropi_claim_time', claimSeconds);
                 setTimeout(updateClaimTimer, 1000);
             }
         }
         updateClaimTimer();
 
         claimBtn.addEventListener("click", () => {
-            score += 500; // ክላይም ሲደረግ 500 ይጨምራል
+            score += 1000; // የቀኑ ክላይም ቦነስ
             scoreDisplay.innerText = score;
             localStorage.setItem('ropi_score', score);
             
             claimBtn.disabled = true;
-            claimSeconds = 300; // ሰዓቱ እንደገና ይመለሳል
+            claimSeconds = 300; // ለቀጣይ ጊዜ 5 ደቂቃ
+            localStorage.setItem('ropi_claim_time', claimSeconds);
             updateClaimTimer();
 
             if (tg.HapticFeedback) {
                 tg.HapticFeedback.notificationOccurred("success");
             }
+            alert("የቀኑ ክላይም ቦነስ 1000 ሳንቲም ተጨመረልዎ! 🎉");
         });
 
-        // ትክክለኛ የሪፈራል (Invite) ሊንክ ማመንጨት
-        const botUsername = "my_clicker_game_2026_bot"; // የቦትዎ ስም
-        const inviteLink = `https://t.me/share/url?url=https://t.me/${botUsername}?start=ref_${userId}&text=ና!%20ይህን%20አሪፍ%20ጨዋታ%20 በመጫወት%20ሳንቲም%20ሰብስብ!`;
+        // የ 3 ጓደኛ ኢንቫይት ስርዓት
+        const botUsername = "my_clicker_game_2026_bot";
+        const inviteLink = `https://t.me/share/url?url=https://t.me/${botUsername}?start=ref_${userId}&text=ና!%20ይህን%20አሪፍ%20ጨዋታ%20ተጫወትና%20ሳንቲም%20ሰብስብ!`;
         
         document.getElementById("inviteBtn").addEventListener("click", (e) => {
             e.preventDefault();
-            // ቴሌግራም ሼር ማድረጊያውን መክፈት
             window.open(inviteLink, '_blank');
+            
+            // ለሙከራ (Test) ጓደኛ ሲጋብዝ ቁጥሩ እንዲጨምር ማድረግ ይቻላል 
+            // (በእውነተኛ ሰርቨር ሲሆን በቶክን ይረጋገጣል)
         });
 
-        // የተልእኮዎች ቁልፍ
         document.getElementById("tasksBtn").addEventListener("click", () => {
-            alert("የቀኑ ተልእኮዎች በቅርቡ ይለቀቃሉ! 🚀");
+            alert("ሶስት ጓደኞችዎን በመጋበዝ 3000 ሳንቲም ሽልማት ያግኙ! ሊንኩን በመጫን ለጓደኞችዎ ይላኩ።");
         });
     </script>
 </body>
